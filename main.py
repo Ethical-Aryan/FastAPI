@@ -12,8 +12,23 @@ def single(name):
 #Multi Query Parameter ,fixing datatype and giving default value
 @obj.get("/multiple") 
 def multiple(id:int,name:str,mobile:int,email:str,address=""):
-    try:
+    try:    
         message = "Welcome " + str(id) + name + str(mobile) + email + address   
+        return JSONResponse(status_code=200,content={"data":message })
+    except Exception as e:
+         return JSONResponse(status_code=500,content={"data":str(e) })  
+
+#single parameter 
+@obj.get("/single-param/{name}/details")
+def single_param(name):
+    message = "Welcome "  + name
+    return JSONResponse(status_code=200,content={"data":message })
+
+#multiple parameter
+@obj.get("/multiple-param/{id}/{name}") 
+def multiple_param(id:int,name:str):
+    try:    
+        message = "Welcome " + str(id) + " "+ name  
         return JSONResponse(status_code=200,content={"data":message })
     except Exception as e:
          return JSONResponse(status_code=500,content={"data":str(e) })  
