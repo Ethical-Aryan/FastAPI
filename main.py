@@ -1,9 +1,21 @@
 from fastapi import FastAPI 
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel  
 
 obj = FastAPI()
 
-#Single Query parameter
+class StudentRequest(BaseModel):
+    id:int
+    name:str
+    mobile:int
+    email:str
+    address:str
+
+# class LoginRequests(BaseModel):
+#     email:str
+#     password:str
+
+#Single Query parameter 
 @obj.get("/single")
 def single(name):
     message = "Welcome " + name
@@ -21,7 +33,7 @@ def multiple(id:int,name:str,mobile:int,email:str,address=""):
 #single parameter 
 @obj.get("/single-param/{name}/details")
 def single_param(name):
-    message = "Welcome "  + name
+    message = "Welcome " + name
     return JSONResponse(status_code=200,content={"data":message })
 
 #multiple parameter
@@ -32,6 +44,23 @@ def multiple_param(id:int,name:str):
         return JSONResponse(status_code=200,content={"data":message })
     except Exception as e:
          return JSONResponse(status_code=500,content={"data":str(e) })  
+
+@obj.post("/details")
+def details(details:StudentRequest):
+    try:
+         return JSONResponse(status_code=200,content={"message":details.model_dump()})
+    except Exception as e:
+        return JSONResponse(status_code=500,content={"Error message: " : str(e)})
+
+@obj.get("/login") #LOGIN API
+def login(user:str,password:str):
+    try:
+        if user == "admin" and password =="admin123":
+            return JSONResponse(status_code=200,content={"message":"Login Successful"})
+        else:
+            return JSONResponse(status_code=401, content={"message": "Login unsuccessful"} )
+    except Exception as e:
+             return JSONResponse(status_code=500,content={"Error message: " : str(e)})
 
 @obj.get("/home")
 def home():

@@ -1,0 +1,8 @@
+200 → worked ✅
+201 → created ✅
+400 → bad request ❌
+401 → login required 🔐
+403 → no permission 🚫
+404 → doesn't exist 🔎
+422 → invalid data ⚠️
+500 → server crashed 💥
