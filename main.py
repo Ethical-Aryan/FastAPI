@@ -11,9 +11,17 @@ class StudentRequest(BaseModel):
     email:str
     address:str
 
-# class LoginRequests(BaseModel):
-#     email:str
-#     password:str
+class StudentResponse(BaseModel):
+    id:int
+    name:str
+    mobile:int
+    email:str
+    address:str
+    enroll_id:str
+
+class LoginRequests(BaseModel):
+    user:str
+    password:str
 
 #Single Query parameter 
 @obj.get("/single")
@@ -52,8 +60,8 @@ def details(details:StudentRequest):
     except Exception as e:
         return JSONResponse(status_code=500,content={"Error message: " : str(e)})
 
-@obj.get("/login") #LOGIN API
-def login(user:str,password:str):
+@obj.get("/getlogin") #LOGIN API
+def getlogin(user:str,password:str):
     try:
         if user == "admin" and password =="admin123":
             return JSONResponse(status_code=200,content={"message":"Login Successful"})
@@ -61,6 +69,39 @@ def login(user:str,password:str):
             return JSONResponse(status_code=401, content={"message": "Login unsuccessful"} )
     except Exception as e:
              return JSONResponse(status_code=500,content={"Error message: " : str(e)})
+
+@obj.post("/postlogin") #LOGIN POST API
+def postlogin(login:LoginRequests):
+    try:
+        if login.user == "admin" and login.password =="admin123":
+            return JSONResponse(status_code=200,content={"message":"Login Successful"})
+        else:
+            return JSONResponse(status_code=401, content={"message": "Login unsuccessful"} )
+    except Exception as e:
+             return JSONResponse(status_code=500,content={"Error message: " : str(e)})
+
+@obj.post("/insert")
+def insert(response:StudentResponse):
+    try:
+        response = StudentResponse(
+            id = response.id,
+            name = response.name,
+            mobile = response.mobile,
+            email = response.email, 
+            address = response.address,
+            enroll_id = response.enroll_id
+        )
+        return JSONResponse(status_code=201,content={"response":response.model_dump()})
+    except Exception as e:
+        return JSONResponse(status_code=500,content={"response":str(e)})
+
+@obj.delete("/delete")
+def delete(id:int):
+    try:
+        response = f"Deleted data of id {str(id)}"
+        return JSONResponse(status_code=200,content={"response":response})
+    except Exception as e:
+        return JSONResponse(status_code=500,content={"response":str(e)})
 
 @obj.get("/home")
 def home():
