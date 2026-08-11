@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel , Field
 from typing import List
 
-obj = FastAPI(title="Aryan's Ecommerce API")
+obj = FastAPI(title="Aryan's Ecommerce API  ")
 
 class StudentRequest(BaseModel):
     id:int
