@@ -1,8 +1,9 @@
 from fastapi import FastAPI 
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel  
+from pydantic import BaseModel , Field
+from typing import List
 
-obj = FastAPI()
+obj = FastAPI(title="Aryan's Ecommerce API")
 
 class StudentRequest(BaseModel):
     id:int
@@ -10,6 +11,7 @@ class StudentRequest(BaseModel):
     mobile:int
     email:str
     address:str
+    
 
 class StudentResponse(BaseModel):
     id:int
@@ -18,7 +20,8 @@ class StudentResponse(BaseModel):
     email:str
     address:str
     enroll_id:str
-
+    subjects:List[str]
+    
 class LoginRequests(BaseModel):
     user:str
     password:str
@@ -89,7 +92,8 @@ def insert(response:StudentResponse):
             mobile = response.mobile,
             email = response.email, 
             address = response.address,
-            enroll_id = response.enroll_id
+            enroll_id = response.enroll_id,
+            subjects = response.subjects
         )
         return JSONResponse(status_code=201,content={"response":response.model_dump()})
     except Exception as e:
