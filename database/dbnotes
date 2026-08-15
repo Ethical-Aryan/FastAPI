@@ -1,0 +1,5 @@
+cursor.execute()  → execute SQL
+cursor.fetchone() → get one row
+cursor.fetchall() → get all rows
+conn.commit()     → save INSERT/UPDATE/DELETE
+conn.close()      → close connection
