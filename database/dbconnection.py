@@ -1,22 +1,12 @@
 import pymysql
 
-def db_connect():
-    try:
-        db_host = "localhost"
-        db_name = "ecommerce"
-        db_username = "root"
-        db_password = ""
+# Step 1: Connect to MySQL Database (XAMPP default: root / no password)
+def get_connection():
+    return pymysql.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="ecommerce"
+    )
 
-        conn = pymysql.connect(
-            host = db_host,
-            database = db_name,
-            user = db_username,
-            password = db_password,
-        )
-        print(f"Connection Successfull with : {db_name}")
-        return (conn)
-    except Exception as e:
-        print(f"Connection Unsuccessfull :  {str(e)}")
-
-
-db_connect()
+

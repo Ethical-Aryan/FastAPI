@@ -1,13 +1,17 @@
 from fastapi import APIRouter 
-# Connects: controller/Studentcontroller.py & model/Studentmodel.py
-from controller.Studentcontroller import insert
-from model.Studentmodel import StudentRequest
+from controller.Studentcontroller import insert, admin_login
+from model.Studentmodel import StudentRequest, AdminLoginRequest
 
 router = APIRouter()
 
-# Step 3: POST route -> Calls controller's insert()
 @router.post("/student/insert")
 def student_insert(request: StudentRequest):
     return insert(request)
+
+@router.post("/admin/login")
+def admin_login_route(request: AdminLoginRequest):
+    return admin_login(request)
+
+
 
 

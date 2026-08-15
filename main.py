@@ -1,11 +1,21 @@
 from fastapi import FastAPI
-# Connects: router/Studentrouter.py
+from fastapi.middleware.cors import CORSMiddleware
 from router.Studentrouter import router as Student_router
 
-# Step 1: Main App entrypoint
-obj = FastAPI(title="Aryan's Ecommerce API")
+app = FastAPI(title="Ecommerce API")
 
-# Step 2: Main app se router attach
-obj.include_router(Student_router)
+# Allow Flask app to talk to FastAPI without CORS issues
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Attach router endpoints to main app
+app.include_router(Student_router)
+
+
 
 

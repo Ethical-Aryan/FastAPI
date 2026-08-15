@@ -1,25 +1,21 @@
 import pymysql
-from dbconnection import db_connect
+from database.dbconnection import get_connection
 
-conn = db_connect()
-cursor = conn.cursor()
-
-cursor.execute("Select * from admin")
-result = cursor.fetchall()
-print(result)
-
-def insert():
-    try:
-        query = "Insert into registration (name,email,PASSWORD ) values('Aryan','aryan@gmail.com','aryan123')"
-        cursor.execute(query)
-        cursor.execute("Select * from registration")
-        result = cursor.fetchall()
-        print(result)
+# Function to execute INSERT / UPDATE / DELETE queries
+def db_insert(query: str, params: tuple):
+    conn = get_connection()
+    with conn.cursor() as cursor:
+        cursor.execute(query, params)
         conn.commit()
-        cursor.close()
-        # conn.close()
-    except Exception as e:
-         return (f"The error is : {str(e)}")
+    conn.close()
+
+# Function to execute SELECT queries and fetch a single record as a dictionary
+def fetch_one(query: str, params: tuple):
+    conn = get_connection()
+    with conn.cursor(pymysql.cursors.DictCursor) as cursor:
+        cursor.execute(query, params)
+        result = cursor.fetchone()
+    conn.close()
+    return result
 
 
-insert()
